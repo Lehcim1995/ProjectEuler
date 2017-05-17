@@ -16,12 +16,14 @@ namespace ProjectEular.Problems
             double c = 0;
             double d = 0;
 
+            // c^2 = b^2 = a^2
+            //
             // a + b + c = 1000
             // a*a + b*b = c*c
             // a + b + (wortel(a*a + b*b)) = 1000
             // a = b
             // d = wortel(d*d) = 1000
-            //
+            // https://www.wolframalpha.com/input/?i=a+%2B+b+%2B+c+%3D+1000,++c%5E2+%3D+a%5E2+%2B+b%5E2,+x+%3D+a*b*c,+a+%3E+0
 
             c = Math.Sqrt(a*a + b*b);
 

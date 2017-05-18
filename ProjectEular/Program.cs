@@ -16,7 +16,15 @@ namespace ProjectEular
             while (true)
             {
                 Console.WriteLine("Which problem number?");
-                string num = Console.ReadLine();
+                string num = Console.ReadLine().Trim();
+
+                switch (num?.ToLower()) //for quiting
+                {
+                    case "q":
+                    case "quit":
+                    case "exit":
+                        return;
+                }
 
                 Type problem = Type.GetType("ProjectEular.Problems.Problem" + num, false);
 
@@ -26,21 +34,21 @@ namespace ProjectEular
                     continue;
                 }
 
-                IProblem pi;
                 try
                 {
-                    pi = (IProblem)Activator.CreateInstance(problem);
+                    var pi = (IProblem) Activator.CreateInstance(problem);
+                    Console.WriteLine("The awnser is:");
+                    Console.WriteLine(pi.Awnser());
+                }
+                catch (NotImplementedException)
+                {
+                    Console.WriteLine("Awnser not implemented yet");
                 }
                 catch (Exception)
                 {
-                    Console.WriteLine("Problem not found");
-                    continue;
+                    Console.WriteLine($"Interface not implemented in problem {num}");
                 }
-                
-                Console.WriteLine("The awnser is:");
-                Console.WriteLine(pi.Awnser());
             }
-
         }
     }
 }

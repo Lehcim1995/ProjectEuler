@@ -15,7 +15,6 @@ namespace ProjectEular.Problems
         {
             long number = input;
             int chain = 1;
-            long last = 0;
 
             while (number != 1)
             {

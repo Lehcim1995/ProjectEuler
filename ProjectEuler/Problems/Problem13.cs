@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ProjectEular.Interfaces;
+using ProjectEuler.Interfaces;
 
 namespace ProjectEuler.Problems
 {
@@ -112,7 +112,7 @@ namespace ProjectEuler.Problems
             "20849603980134001723930671666823555245252804609722 " +
             "53503534226472524250874054075591789781264330331690";
 
-        public long Awnser(params long[] arguments)
+        public long Answer(params long[] arguments)
         {
             long newnumb = 0;
             const int numberlenght = 50; //50;

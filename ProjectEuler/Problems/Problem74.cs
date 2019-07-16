@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using ProjectEular.Interfaces;
+using ProjectEuler.Interfaces;
 
 namespace ProjectEuler.Problems
 {
@@ -90,7 +90,7 @@ namespace ProjectEuler.Problems
             }
         }
 
-        public long Awnser(params long[] arguments)
+        public long Answer(params long[] arguments)
         {
             return solve();
         }

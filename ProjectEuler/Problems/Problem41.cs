@@ -1,8 +1,9 @@
 using System;
+using ProjectEuler.Interfaces;
 
 namespace ProjectEuler.Problems
 {
-    public class Problem41 {
+    public class Problem41 : IProblem {
 
         public int solve()
         {
@@ -81,6 +82,11 @@ namespace ProjectEuler.Problems
             charArray[j] = temp; 
             string s = new string(charArray); 
             return s; 
-        } 
+        }
+
+        public long Answer(params long[] arguments)
+        {
+            return solve();
+        }
     }
 }

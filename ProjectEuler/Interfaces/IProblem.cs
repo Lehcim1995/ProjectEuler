@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ProjectEular.Interfaces
+﻿namespace ProjectEuler.Interfaces
 {
     interface IProblem
     {
@@ -14,6 +7,6 @@ namespace ProjectEular.Interfaces
         /// </summary>
         /// <param name="arguments"></param>
         /// <returns></returns>
-        long Awnser(params long[] arguments);
+        long Answer(params long[] arguments);
     }
 }

@@ -12,10 +12,14 @@ namespace ProjectEuler.CLI
             List,
             L,
             Problem,
-            P
+            P,
+            Exit,
+            Quit,
+            Leave,
+            Q
         }
 
-        private Commands commands;
+        private Commands _commands;
 
         private void GetCommands()
         {
@@ -37,9 +41,9 @@ namespace ProjectEuler.CLI
         {
             string input = Console.ReadLine();
 
-            commands = (Commands) Enum.Parse(commands.GetType(), input);
+            _commands = (Commands) Enum.Parse(_commands.GetType(), input);
 
-            switch (commands)
+            switch (_commands)
             {
                 // Show help
                 case Commands.Help:

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ProjectEular.Interfaces;
+using ProjectEuler.Interfaces;
 
 namespace ProjectEuler.Problems
 {
@@ -35,7 +35,7 @@ namespace ProjectEuler.Problems
             return sum * sum;
         }
 
-        public long Awnser(params long[] arguments)
+        public long Answer(params long[] arguments)
         {
             return Diffrence();
         }

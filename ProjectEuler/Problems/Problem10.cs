@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ProjectEular.Classes;
-using ProjectEular.Interfaces;
+using ProjectEuler.Interfaces;
 
 namespace ProjectEuler.Problems
 {
     class Problem10 : IProblem
     {
-        public long Awnser(params long[] arguments)
+        public long Answer(params long[] arguments)
         {
             MyMaths mm = new MyMaths();
             long awnser = 0;

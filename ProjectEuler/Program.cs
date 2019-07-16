@@ -1,6 +1,6 @@
 ﻿using System;
-using ProjectEular.Interfaces;
 using ProjectEuler.CLI;
+using ProjectEuler.Interfaces;
 
 namespace ProjectEuler
 {
@@ -38,7 +38,7 @@ namespace ProjectEuler
                 {
                     var pi = (IProblem) Activator.CreateInstance(problem);
                     Console.WriteLine("The answer is:");
-                    Console.WriteLine(pi.Awnser());
+                    Console.WriteLine(pi.Answer());
                 }
                 catch (NotImplementedException)
                 {

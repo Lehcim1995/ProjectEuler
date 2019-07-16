@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
-using ProjectEular.Interfaces;
+using ProjectEuler.Interfaces;
 
 namespace ProjectEuler.Problems
 {
@@ -162,7 +162,7 @@ namespace ProjectEuler.Problems
             Console.WriteLine("Done 5");
         }
 
-        public long Awnser(params long[] arguments)
+        public long Answer(params long[] arguments)
         {
             return solve();
         }

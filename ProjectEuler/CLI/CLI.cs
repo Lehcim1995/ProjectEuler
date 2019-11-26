@@ -64,7 +64,6 @@ namespace ProjectEuler.CLI
                 case Commands.Problem:
                 case Commands.P:
 
-
                     break;
                 default:
                     // No valid command found? try to guess otherwise give help commando. 

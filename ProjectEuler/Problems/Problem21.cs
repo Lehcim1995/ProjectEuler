@@ -11,16 +11,15 @@ namespace ProjectEuler.Problems
     {
         private int[] ProperDivisors(int input)
         {
-            List<int> div = new List<int>();
+            var div = new List<int>();
 
-            for (int i = 1; i < input - 1; i++)
+            for (var i = 1; i < input - 1; i++)
             {
-                int intdiv = input / i;
-                float floatdiv = (float) input / (float) i;
+                var intDiv = input / i;
+                var floatDiv = (float) input / i;
 
-                if (Math.Abs(floatdiv - intdiv) < 0.0001f)
+                if (Math.Abs(floatDiv - intDiv) < 0.0001f)
                 {
-                    //Console.WriteLine("yay " + i);
                     div.Add(i);
                 }
             }
@@ -30,9 +29,7 @@ namespace ProjectEuler.Problems
 
         private int ProperDivisorsSum(int input)
         {
-            var temp = ProperDivisors(input).Sum();
-            //Console.WriteLine(" sum of " + input + " is " + temp);
-            return temp;
+            return ProperDivisors(input).Sum();
         }
 
         public long Answer(params long[] arguments)
@@ -54,7 +51,6 @@ namespace ProjectEuler.Problems
                     }
                 }
             }
-
 
             return answer;
         }

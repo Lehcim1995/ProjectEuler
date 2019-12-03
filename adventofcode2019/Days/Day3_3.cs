@@ -15,6 +15,8 @@ namespace adventofcode2019.Days
         String line2 = "L1007,U199,L531,D379,L313,U768,L87,U879,R659,U307,L551,D964,L725,D393,R239,D454,R664,U402,R100,D62,R53,D503,R918,U998,L843,D142,R561,U461,R723,D915,L217,D126,L673,U171,R131,U518,R298,U99,L852,D799,L159,U161,R569,D802,L391,D553,L839,U954,R502,U351,R851,D11,L243,D774,L642,U613,R376,U867,L357,D887,L184,D298,R406,U912,R900,D348,L779,U494,R240,D712,R849,D684,R475,D449,L94,U630,L770,D426,L304,D869,R740,D377,R435,D719,L815,D211,R391,U484,R350,U599,R57,U210,R95,U500,L947,D649,R615,D404,L953,D468,R380,U215,R82,D872,R150,D347,L700,D450,L90,U803,L593,U296,R408,U667,R407,U725,R197,U269,R115,D758,R558,U62,L519,U308,R259,U869,L846,U3,R592,D357,R633,D909,L826,U165,L190,D821,L525,U404,R63,D214,R265,U74,L715,U461,L840,D647,R782,D655,R72,D601,L435,U549,L108,U687,R836,D975,L972,U813,R258,U703,R90,D438,R434,D818,R184,D886,R271,U31,L506,U395,L274,U455,R699,U889,L162,U771,R752,U317,R267,D959,R473,U58,R552,U51,R637,D726,R713,D530,L209,D824,R275,D207,R357,D373,L169,U880,L636,U409,R67,D740,R225,D272,R114,U970,R51,U230,R859,U820,L979,D153,R16,D883,L542,U806,L523,D752,L712,U55,L739,U746,R910,D873,R108,D558,L54,D619,L444,U941,R613,U478,L839,D910,R426,D614,L622,U928,L65,D644,L208,U971,L939,U874,R827,U672,L620,U140,L493,D637,L767,U831,R874,U468,R648,U714,R294,D606,L375,D962,L105,D919,L486,D771,L827,D196,L408,U217,L960,D633,L850,U805,L188,U566,L884,D212,L677,D204,R257,D409,R309,D783,L773,D588,L302,U129,L550,U919,L482,U563,R290,U690,R586,D460,L771,D63,R451,D591,L861,D598,L432,U818,L182";
         String[] arrLine2 = { };
 
+
+
         public struct Point
         {
             public int x;
@@ -41,8 +43,6 @@ namespace adventofcode2019.Days
             {
                 char dir = inst[0];
                 int amount = int.Parse(inst.Substring(1));
-
-                Console.WriteLine($"line1 dir : {dir} + length {amount} loc: x: {x} y: {y}");
 
                 switch (dir)
                 {
@@ -124,8 +124,6 @@ namespace adventofcode2019.Days
             {
                 char dir = inst[0];
                 int amount = int.Parse(inst.Substring(1));
-
-                Console.WriteLine($"line2 dir : {dir} + length {amount} loc: x: {x} y: {y}");
 
                 switch (dir)
                 {
@@ -208,7 +206,6 @@ namespace adventofcode2019.Days
         private void checkCollisions()
         {
             // check if there is > 1 in grid
-            int min = int.MaxValue;
 
             var g = new Dictionary<Point, int>();
             var l = new Dictionary<Point, int>();
@@ -230,8 +227,6 @@ namespace adventofcode2019.Days
             {
                 char dir = inst[0];
                 int amount = int.Parse(inst.Substring(1));
-
-                Console.WriteLine($"line1 dir : {dir} + length {amount} loc: x: {x} y: {y}");
 
                 switch (dir)
                 {
@@ -266,6 +261,21 @@ namespace adventofcode2019.Days
                         {
                             currLenght += 1;
                             var p = new Point(x, i);
+
+                            // go until p is in g(grid with collions)
+                            // create new dictionary and add current length only if no lenght is found
+                            if (g.ContainsKey(p))
+                            {
+                                if (l.ContainsKey(p))
+                                {
+                                    if (l[p] > currLenght)
+                                        l[p] = currLenght;
+                                }
+                                else
+                                {
+                                    l.Add(p, currLenght);
+                                }
+                            }
                         }
                         y -= amount;
 
@@ -276,6 +286,21 @@ namespace adventofcode2019.Days
                         { 
                             currLenght += 1;
                             var p = new Point(x, i);
+
+                            // go until p is in g(grid with collions)
+                            // create new dictionary and add current length only if no lenght is found
+                            if (g.ContainsKey(p))
+                            {
+                                if (l.ContainsKey(p))
+                                {
+                                    if (l[p] > currLenght)
+                                        l[p] = currLenght;
+                                }
+                                else
+                                {
+                                    l.Add(p, currLenght);
+                                }
+                            }
                         }
                         y += amount;
 
@@ -286,6 +311,21 @@ namespace adventofcode2019.Days
                         {
                             currLenght += 1;
                             var p = new Point(i, y);
+
+                            // go until p is in g(grid with collions)
+                            // create new dictionary and add current length only if no lenght is found
+                            if (g.ContainsKey(p))
+                            {
+                                if (l.ContainsKey(p))
+                                {
+                                    if (l[p] > currLenght)
+                                        l[p] = currLenght;
+                                }
+                                else
+                                {
+                                    l.Add(p, currLenght);
+                                }
+                            }
                         }
                         x -= amount;
 
@@ -295,13 +335,12 @@ namespace adventofcode2019.Days
 
             x = 0;
             y = 0;
+            currLenght = 0;
 
             foreach (String inst in arrLine2)
             {
                 char dir = inst[0];
                 int amount = int.Parse(inst.Substring(1));
-
-                Console.WriteLine($"line2 dir : {dir} + length {amount} loc: x: {x} y: {y}");
 
                 switch (dir)
                 {
@@ -311,6 +350,21 @@ namespace adventofcode2019.Days
                         {
                             currLenght += 1;
                             var p = new Point(i, y);
+
+                            // go until p is in g(grid with collions)
+                            // create new dictionary and add current length only if no lenght is found
+                            if (g.ContainsKey(p))
+                            {
+                                if (l2.ContainsKey(p))
+                                {
+                                    if (l2[p] > currLenght)
+                                        l2[p] = currLenght;
+                                }
+                                else
+                                {
+                                    l2.Add(p, currLenght);
+                                }
+                            }
                         }
                         x += amount;
 
@@ -321,6 +375,21 @@ namespace adventofcode2019.Days
                         {
                             currLenght += 1;
                             var p = new Point(x, i);
+
+                            // go until p is in g(grid with collions)
+                            // create new dictionary and add current length only if no lenght is found
+                            if (g.ContainsKey(p))
+                            {
+                                if (l2.ContainsKey(p))
+                                {
+                                    if (l2[p] > currLenght)
+                                        l2[p] = currLenght;
+                                }
+                                else
+                                {
+                                    l2.Add(p, currLenght);
+                                }
+                            }
                         }
                         y -= amount;
 
@@ -331,6 +400,21 @@ namespace adventofcode2019.Days
                         {
                             currLenght += 1;
                             var p = new Point(x, i);
+
+                            // go until p is in g(grid with collions)
+                            // create new dictionary and add current length only if no lenght is found
+                            if (g.ContainsKey(p))
+                            {
+                                if (l2.ContainsKey(p))
+                                {
+                                    if (l2[p] > currLenght)
+                                        l2[p] = currLenght;
+                                }
+                                else
+                                {
+                                    l2.Add(p, currLenght);
+                                }
+                            }
                         }
                         y += amount;
 
@@ -341,6 +425,21 @@ namespace adventofcode2019.Days
                         {
                             currLenght += 1;
                             var p = new Point(i, y);
+
+                            // go until p is in g(grid with collions)
+                            // create new dictionary and add current length only if no lenght is found
+                            if (g.ContainsKey(p))
+                            {
+                                if (l2.ContainsKey(p))
+                                {
+                                    if (l2[p] > currLenght)
+                                        l2[p] = currLenght;
+                                }
+                                else
+                                {
+                                    l2.Add(p, currLenght);
+                                }
+                            }
                         }
                         x -= amount;
 
@@ -349,6 +448,21 @@ namespace adventofcode2019.Days
             }
 
             // Find the point in l and l2 with the smallest value
+
+            int small = int.MaxValue;
+
+            foreach(var p in l)
+            {
+                int val = p.Value + l2[p.Key];
+
+                if (val - 2 == 0)
+                    continue;
+
+                if (val < small)
+                    small = val;
+            }
+
+            Console.WriteLine($"shortest path is {small-2}");
         }
 
         public long Answer(params long[] arguments)

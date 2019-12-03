@@ -45,9 +45,9 @@ namespace adventofcode2019
 				{
 					Console.WriteLine("Answer not implemented yet");
 				}
-				catch (Exception)
+				catch (Exception e)
 				{
-					Console.WriteLine($"Interface not implemented in problem {num}");
+					Console.WriteLine($"Interface not implemented in problem {num} Exception : {e.Message}");
 				}
 			}
 		}

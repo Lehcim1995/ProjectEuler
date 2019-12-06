@@ -46,14 +46,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Days\Day1.cs" />
-    <Compile Include="Days\Day1_1.cs" />
+    <Compile Include="Days\Day1_2.cs" />
+    <Compile Include="Days\Day2_2.cs" />
+    <Compile Include="Days\Day3_2.cs" />
+    <Compile Include="Days\Day4_2.cs" />
     <Compile Include="Days\Day5.cs" />
-    <Compile Include="Days\Day2d2.cs" />
     <Compile Include="Days\Day2.cs" />
-    <Compile Include="Days\Day3_3.cs" />
     <Compile Include="Days\Day3.cs" />
-    <Compile Include="Days\Day4_4.cs" />
     <Compile Include="Days\Day4.cs" />
+    <Compile Include="Days\Day6_2.cs" />
+    <Compile Include="Days\Day6.cs" />
     <Compile Include="Interfaces\IProblem.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -65,6 +67,9 @@
   <ItemGroup>
     <Folder Include="Classes\" />
     <Folder Include="CLI\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Files\Orbits.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

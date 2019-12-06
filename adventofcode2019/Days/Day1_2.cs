@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace adventofcode2019.Days
 {
-	public class Day1_1 : IProblem
+	public class Day1_2 : IProblem
 	{
 
 		private int[] input = {

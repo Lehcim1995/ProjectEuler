@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace adventofcode2019.Days
 {
-    public class Day4_4 : IProblem
+    public class Day4_2 : IProblem
     {
         int input1 = 240920;
         int input2 = 789857;

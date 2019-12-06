@@ -69,7 +69,9 @@
     <Folder Include="CLI\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Files\Orbits.txt" />
+    <Content Include="Files\Orbits.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

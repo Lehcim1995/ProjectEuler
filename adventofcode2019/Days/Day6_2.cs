@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -36,8 +37,11 @@ namespace adventofcode2019.Days
             string line;
 
             // Read the file and display it line by line.  
+
+            string path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Files\Orbits.txt");
+
             using (StreamReader file =
-                new StreamReader(@"C:\Users\320081352\OneDrive - Philips\Projects\projecteuler\ProjectEuler\adventofcode2019\Files\Orbits.txt"))
+                new StreamReader(path))
             {
                 while ((line = file.ReadLine()) != null)
                 {
@@ -88,16 +92,11 @@ namespace adventofcode2019.Days
             for (int i = 0; i < FromYou.Count; i++)
             {
                 string y = FromYou[i];
+                int index = FromSan.IndexOf(y);
 
-                for(int j = 0; j < FromSan.Count; j++)
+                if (index > 0)
                 {
-                    string s = FromSan[j];
-
-                    if (y == s)
-                    {
-                        Console.WriteLine($"Commen path found {y} : index {i} to {s} index {j} ");
-                        return i + j;
-                    }
+                    return i + index;
                 }
             }
 
@@ -122,8 +121,6 @@ namespace adventofcode2019.Days
 
         public long Answer(params long[] arguments)
         {
-            int count = 0;
-
             fillData();
 
             return findShortestRoute();

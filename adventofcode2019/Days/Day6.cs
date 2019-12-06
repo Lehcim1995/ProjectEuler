@@ -36,8 +36,10 @@ namespace adventofcode2019.Days
             string line;
 
             // Read the file and display it line by line.  
+            string path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Files\Orbits.txt");
+
             using (StreamReader file =
-                new StreamReader(@"C:\Users\320081352\OneDrive - Philips\Projects\projecteuler\ProjectEuler\adventofcode2019\Files\Orbits.txt"))
+                new StreamReader(path))
             {
                 while ((line = file.ReadLine()) != null)
                 {

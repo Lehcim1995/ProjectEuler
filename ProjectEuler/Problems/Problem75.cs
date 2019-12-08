@@ -92,6 +92,7 @@ namespace ProjectEuler.Problems
 
             return c;
         }
+
         public bool correct(BigInteger a, BigInteger b, BigInteger c)
         {
             BigInteger a2 = a * a;
@@ -122,7 +123,7 @@ namespace ProjectEuler.Problems
                 int bitLength = Convert.ToInt32(Math.Ceiling(BigInteger.Log(n, 2)));
                 BigInteger root = BigInteger.One << (bitLength / 2);
 
-                while (!isSqrt(n, root))
+                while (!IsSqrt(n, root))
                 {
                     root += n / root;
                     root /= 2;
@@ -134,7 +135,7 @@ namespace ProjectEuler.Problems
             throw new ArithmeticException("NaN");
         }
 
-        private static Boolean isSqrt(BigInteger n, BigInteger root)
+        private static Boolean IsSqrt(BigInteger n, BigInteger root)
         {
             BigInteger lowerBound = root*root;
             BigInteger upperBound = (root + 1)*(root + 1);

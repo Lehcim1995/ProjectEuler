@@ -1,19 +1,16 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ProjectEular.Classes
+namespace ProjectEuler.Classes
 {
     class MyMaths
     {
-        private int[] primelist = new int[2000000];
+        private readonly int[] _primeList;
 
         public MyMaths()
         {
-            primelist = GeneratePrimesSieveOfSundaram(2000000).ToArray();
+            _primeList = GeneratePrimesSieveOfSundaram(2000000).ToArray();
         }
 
         public int NumberOfDevisors(int number)
@@ -56,9 +53,9 @@ namespace ProjectEular.Classes
 
         public int PrimaAtPosition(int position, int max = 0)
         {
-            if (primelist[position] != 0)
+            if (_primeList[position] != 0)
             {
-                return primelist[position];
+                return _primeList[position];
             }
 
             int primenr = 1;
@@ -75,7 +72,7 @@ namespace ProjectEular.Classes
 
                 if (isPrime(number))
                 {
-                    primelist[primenr] = number;
+                    _primeList[primenr] = number;
                     primenr++;
                 }
             }
@@ -148,5 +145,81 @@ namespace ProjectEular.Classes
             return primes;
         }
 
+        /// <summary>
+        /// Returns factorio til n 9
+        ///
+        /// </summary>
+        /// <param name="n"></param>
+        /// <returns></returns>
+        public int FastFactorio(int n)
+        {
+            switch (n)
+            {
+                case 0:
+                    return 1;
+                case 1:
+                    return 1;
+                case 2:
+                    return 2;
+                case 3:
+                    return 6;
+                case 4:
+                    return 24;
+                case 5:
+                    return 120;
+                case 6:
+                    return 720;
+                case 7:
+                    return 5040;
+                case 8:
+                    return 40320;
+                case 9:
+                    return 362880;
+                default:
+                    return 0;
+            }
+        }
+
+        /** 
+        * permutation function 
+        * @param str string to  
+        * calculate permutation for 
+        * @param l starting index 
+        * @param r end index 
+        */
+        public void Permute(string str, int l, int r)
+        {
+            if (l == r)
+            {
+                // Done?
+            }
+            else
+            {
+                for (int i = l; i <= r; i++)
+                {
+                    str = Swap(str, l, i);
+                    Permute(str, l + 1, r);
+                    str = Swap(str, l, i);
+                }
+            }
+        }
+
+        /** 
+        * Swap Characters at position 
+        * @param a string value 
+        * @param i position 1 
+        * @param j position 2 
+        * @return swapped string 
+        */
+        public string Swap(string a, int i, int j)
+        {
+            char temp;
+            char[] charArray = a.ToCharArray();
+            temp = charArray[i];
+            charArray[i] = charArray[j];
+            charArray[j] = temp;
+            string s = new string(charArray);
+            return s;
+        }
     }
 }

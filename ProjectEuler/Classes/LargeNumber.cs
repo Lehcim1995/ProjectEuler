@@ -1,44 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ProjectEular.Classes
+namespace ProjectEuler.Classes
 {
-    class LargeNumber
+    public class LargeNumber
     {
-        private Dictionary<int, long> numbers;
-        private const long cutoff = 1000000000000L;
+        private Dictionary<int, long> _numbers;
+        private const long Cutoff = 1000000000000L;
 
         public Dictionary<int, long> Numbers
         {
-            get { return numbers; }
-            set { numbers = value; }
+            get => _numbers;
+            set => _numbers = value;
         }
 
         public LargeNumber(long value)
         {
-            numbers = new Dictionary<int, long>();
-            if (value > cutoff)
+            _numbers = new Dictionary<int, long>();
+            if (value > Cutoff)
             {
-                numbers.Add(0, cutoff);
-                numbers.Add(1, value);
+                _numbers.Add(0, Cutoff);
+                _numbers.Add(1, value - Cutoff);
             }
 
-            numbers.Add(0, value);
+            _numbers.Add(0, value);
         }
 
         public LargeNumber(Dictionary<int, long> value)
         {
-            numbers = value;
+            _numbers = value;
         }
 
         public LargeNumber(LargeNumber value)
         {
-            numbers = value.Numbers;
+            _numbers = value.Numbers;
         }
 
         public static LargeNumber operator +(LargeNumber a, LargeNumber b)
@@ -53,14 +48,14 @@ namespace ProjectEular.Classes
 
             for (int i = 0; i < loop; i++)
             {
-                long sum = a.numbers[i] + b.numbers[i];
+                long sum = a._numbers[i] + b._numbers[i];
                 sum += rest;
 
                 rest = 0;
 
-                if (sum > cutoff)
+                if (sum > Cutoff)
                 {
-                    rest = sum - cutoff;
+                    rest = sum - Cutoff;
                 }
 
                 newNumber.Add(i, sum);

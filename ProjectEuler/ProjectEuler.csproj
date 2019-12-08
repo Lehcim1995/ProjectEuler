@@ -45,8 +45,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\Constants.cs" />
     <Compile Include="Classes\LargeNumber.cs" />
     <Compile Include="Classes\MyMaths.cs" />
+    <Compile Include="Classes\NumberNames.cs" />
     <Compile Include="CLI\CLI.cs" />
     <Compile Include="Interfaces\IProblem.cs" />
     <Compile Include="Problems\Problem1.cs" />

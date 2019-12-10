@@ -34,6 +34,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.5.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
     </Reference>
@@ -45,7 +46,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\IntCodeProcessor.cs" />
+    <Compile Include="Classes\MyMaths.cs" />
     <Compile Include="Days\Day1.cs" />
+    <Compile Include="Days\Day10.cs" />
     <Compile Include="Days\Day1_2.cs" />
     <Compile Include="Days\Day2_2.cs" />
     <Compile Include="Days\Day3_2.cs" />
@@ -56,22 +60,32 @@
     <Compile Include="Days\Day4.cs" />
     <Compile Include="Days\Day6_2.cs" />
     <Compile Include="Days\Day6.cs" />
+    <Compile Include="Days\Day7.cs" />
+    <Compile Include="Days\Day8_2.cs" />
+    <Compile Include="Days\Day8.cs" />
+    <Compile Include="Days\Day9.cs" />
     <Compile Include="Interfaces\IProblem.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Files\image.text" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Classes\" />
     <Folder Include="CLI\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Files\Orbits.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ProjectEuler\ProjectEuler.csproj">
+      <Project>{17ea48a4-178a-448e-bd67-fff000129be9}</Project>
+      <Name>ProjectEuler</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

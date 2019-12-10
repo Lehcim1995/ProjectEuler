@@ -173,10 +173,11 @@ namespace adventofcode2019.Classes
                     {
                         // Input
                         var aPointer = program[pointer + 1];
-                        //int aVal = paramA ? aPointer : program[aPointer];
+                        var aVal = immediateA ? aPointer :
+                            relativeA ? program[relativePointer + (int)aPointer] : program[(int)aPointer];
 
                         if (_debug)
-                            Console.WriteLine($"Input output at {aPointer}");
+                            Console.WriteLine($"Input output at {aVal}");
 
                         switch (_inputMode)
                         {
@@ -184,10 +185,10 @@ namespace adventofcode2019.Classes
                                 Console.WriteLine("Please provide an input");
                                 string input = Console.ReadLine();
 
-                                program[(int) aPointer] = int.Parse(input);
+                                program[(int) aVal] = int.Parse(input);
                                 break;
                             case InputMode.Set:
-                                program[(int) aPointer] = inputNumber[currentInput];
+                                program[(int) aVal] = inputNumber[currentInput];
 
                                 currentInput++;
                                 if (currentInput >= inputNumber.Length)

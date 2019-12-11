@@ -2,32 +2,39 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace adventofcode2019.Classes
 {
     public class IntCodeProcessor2
     {
-        private enum ParamaterMode
+        private enum ParameterMode
         {
             Relative,
             Position,
             Immediate
         }
 
+        public enum InputMode
+        {
+            Set,
+            Console
+        }
+
         internal class Instruction
         {
-            public static readonly Instruction EXIT =               new Instruction("Exit", 0, 99, null);
-            public static readonly Instruction MUILTIPLY =          new Instruction("Mulitply", 3, 2, null);
-            public static readonly Instruction ADDITION =           new Instruction("Addition", 3, 1, null);
-            public static readonly Instruction INPUT =              new Instruction("Input", 1, 3, null);
-            public static readonly Instruction OUTPUT =             new Instruction("Output", 1, 4, null);
-            public static readonly Instruction JUMP_IF_TRUE =       new Instruction("Jump if true", 2, 5, null);
-            public static readonly Instruction JUMP_IF_FALSE =      new Instruction("Jump if false", 2, 6, null);
-            public static readonly Instruction LESS_THAN =          new Instruction("Less than", 3, 7, null);
-            public static readonly Instruction EQUELS =             new Instruction("Equels", 3, 8, null);
-            public static readonly Instruction CHANGE_RELATIVE =    new Instruction("Change relative", 1, 9, null);
-            public static readonly Instruction ERROR =              new Instruction("ERROR", -1, -1, null);
+            public static readonly Instruction EXIT = new Instruction("Exit", 0, 99, null);
+            public static readonly Instruction MULTIPLY = new Instruction("Multiply", 3, 2, null);
+            public static readonly Instruction ADDITION = new Instruction("Addition", 3, 1, null);
+            public static readonly Instruction INPUT = new Instruction("Input", 1, 3, null);
+            public static readonly Instruction OUTPUT = new Instruction("Output", 1, 4, null);
+            public static readonly Instruction JUMP_IF_TRUE = new Instruction("Jump if true", 2, 5, null);
+            public static readonly Instruction JUMP_IF_FALSE = new Instruction("Jump if false", 2, 6, null);
+            public static readonly Instruction LESS_THAN = new Instruction("Less than", 3, 7, null);
+            public static readonly Instruction EQUELS = new Instruction("Equels", 3, 8, null);
+            public static readonly Instruction CHANGE_RELATIVE = new Instruction("Change relative", 1, 9, null);
+            public static readonly Instruction ERROR = new Instruction("ERROR", -1, -1, null);
 
             public static IEnumerable<Instruction> Values
             {
@@ -35,7 +42,7 @@ namespace adventofcode2019.Classes
                 {
                     yield return EXIT;
                     yield return ADDITION;
-                    yield return MUILTIPLY;
+                    yield return MULTIPLY;
                     yield return INPUT;
                     yield return OUTPUT;
                     yield return JUMP_IF_TRUE;
@@ -48,72 +55,109 @@ namespace adventofcode2019.Classes
 
             public static Instruction GetInstruction(int opcode)
             {
-                return Values.FirstOrDefault(t => t.Opcode == opcode).IfDefaultGiveMe(ERROR);
+                return Values.FirstOrDefault(t => t.OpCode == opcode).IfDefaultGiveMe(ERROR);
             }
 
             public string Name { get; set; }
-            public int Paramters { get; set; }
-            public int Opcode { get; set; }
-            public delegate void Execute( long[] parameters);
-            public Execute ExecuteInsturction;
+            public int Parameters { get; set; }
+            public int OpCode { get; set; }
 
-            Instruction(string name, int parameters, int opcode, Execute ExecuteInsturction)
+            public delegate void Execute(long[] parameters);
+
+            public Execute ExecuteInstruction;
+
+            Instruction(string name, int parameters, int opCode, Execute executeInstruction)
             {
                 this.Name = name;
-                this.Paramters = parameters;
-                this.Opcode = opcode;
-                this.ExecuteInsturction = ExecuteInsturction;
+                this.Parameters = parameters;
+                this.OpCode = opCode;
+                this.ExecuteInstruction = executeInstruction;
             }
         }
 
         class IntCodeParameters
         {
             public List<long> Values { get; set; }
-            public List<ParamaterMode> Modes { get; set; }
+            public List<ParameterMode> Modes { get; set; }
+
+            public IntCodeParameters(int instParameters)
+            {
+                Values = new List<long>(instParameters);
+                Modes = new List<ParameterMode>(instParameters);
+
+                for (int i = 0; i < instParameters - 1; i++)
+                {
+                    Modes.Add(ParameterMode.Position);
+                }
+
+                Modes.Add(instParameters == 1 ? ParameterMode.Position : ParameterMode.Immediate);
+                //Modes.Add(ParameterMode.Immediate);
+            }
         }
 
-        private long[] program;
-        private List<long> memory;
-        private IntCodeParameters parameters;
+        private readonly long[] _program;
+        private List<long> _memory = new List<long>();
+        public List<long> InputNumbers { get; set; } = new List<long>();
+        private IntCodeParameters _parameters;
 
-        public List<long> Memory { get { return memory; } private set { } }
- 
-        private int programPointer;
-        private int relativePointer;
+        public List<long> Memory => _memory;
 
-        private bool run;
+        private int _programPointer;
+        private int _relativePointer;
+        private int _inputPointer;
+
+        private bool _run;
+        public bool Debug { get; set; }
+        public InputMode InputModeSetting { get; set; }
 
         public IntCodeProcessor2(long[] program)
         {
-            this.program = program;
+            this._program = program;
         }
 
         public void Run()
         {
-            memory.AddRange(program);
+            _memory.AddRange(_program);
+            _run = true;
 
-            programPointer = 0;
+            _programPointer = 0;
 
-            
 
-            while(run)
+            while (_run)
             {
-
-
                 // 
-                int opcode = ParseOpcode(memory[programPointer]);
-                ParseParameters(memory[programPointer]);
+                int opCode = ParseOpcode(_memory[_programPointer]);
 
-                Instruction inst = Instruction.GetInstruction(opcode);
+                var inst = Instruction.GetInstruction(opCode);
+                ParseParameters(_memory[_programPointer], inst);
 
+                if (Debug)
+                {
+                    Console.WriteLine($"Current pointer location {_programPointer}");
+                    Console.WriteLine($"Current relative pointer location {_relativePointer}");
+                    Console.Write($"Original Input {_memory[_programPointer]}");
+                    for (int i = 0; i < inst.Parameters; i++)
+                    {
+                        Console.Write($",{Get(i + 1, ParameterMode.Immediate)}");
+                    }
 
-                switch(inst.Opcode)
+                    Console.Write("\n");
+
+                    Console.WriteLine($"Name: {inst.Name}");
+
+                    for (int i = 0; i < inst.Parameters; i++)
+                    {
+                        Console.WriteLine($"Parameter value: {Get(i + 1, ParameterMode.Immediate)} | Mode: {_parameters.Modes[i]} | Actual Value: {Get(i + 1)}");
+                    }
+                }
+
+                switch (inst.OpCode)
                 {
                     case 1:
                         Addition();
                         break;
                     case 2:
-                        Muiltiply();
+                        Multiply();
                         break;
                     case 3:
                         Input();
@@ -141,13 +185,18 @@ namespace adventofcode2019.Classes
                         break;
                     default:
                         break;
-
                 }
 
+                if (Debug)
+                {
+                    //Thread.Sleep(500);
+
+                    Console.WriteLine("\n");
+                }
             }
         }
 
-        public void ParseParameters(long code)
+        private void ParseParameters(long code, Instruction inst)
         {
             List<long> listOfLongs = new List<long>();
             while (code > 0)
@@ -156,55 +205,87 @@ namespace adventofcode2019.Classes
                 code = code / 10;
             }
 
+            _parameters = new IntCodeParameters(inst.Parameters);
 
-            parameters = new IntCodeParameters();
-           
-            for(int i = 2; i < listOfLongs.Count; i ++)
+            for (int i = 0; i < inst.Parameters; i++)
             {
-                int value = (int)listOfLongs[i];
-                ParamaterMode m = value == 0 ? ParamaterMode.Position : value == 1 ? ParamaterMode.Immediate : ParamaterMode.Relative;
+                _parameters.Values.Add(Get(i + 1, ParameterMode.Immediate));
+            }
 
-                parameters.Modes.Add(m);
+            for (int i = 2; i < listOfLongs.Count; i++)
+            {
+                int value = (int) listOfLongs[i];
+                ParameterMode m = value == 0 ? ParameterMode.Position :
+                    value == 1 ? ParameterMode.Immediate : ParameterMode.Relative;
+
+                _parameters.Modes[i-2] = m ;
             }
         }
 
         public int ParseOpcode(long code)
         {
-
             return (int) code % 100;
         }
 
-        private void Put(long value, int position)
+        private void Put(long value)
         {
-            if (position > memory.Capacity)
+            int position = (int) _parameters.Values.Last();
+
+            if (_parameters.Modes.Last() == ParameterMode.Relative)
             {
-                memory.AddRange(new long[memory.Capacity - position + 1]);
+                position = _relativePointer + (int)_parameters.Values.Last();
             }
 
-            memory[position] = value;
+            if (position > _memory.Count - 1)
+            {
+                var current = position - _memory.Count;
+                for (int i = 0; i < current + 1; i++)
+                {
+                    _memory.Add(0);
+                }
+            }
+
+            if (Debug)
+                Console.WriteLine($"Setting position {position} to value {value} ");
+
+            _memory[position] = value;
         }
 
         private long Get(int parameter)
         {
-
-            return Get(parameter, ParamaterMode.Position);
+            return Get(parameter, _parameters.Modes[parameter-1]);
         }
 
-            private long Get(int parameter, ParamaterMode mode)
+        private void AdvancePointer(int count)
         {
-            long value = memory[programPointer + parameter];
+            _programPointer += count + 1;
+        }
+
+        private long Get(int parameter, ParameterMode mode)
+        {
+            long value = _memory[_programPointer + parameter];
             long output;
 
-            switch(mode)
+            switch (mode)
             {
-                case ParamaterMode.Immediate:
+                case ParameterMode.Immediate:
                     output = value;
                     break;
-                case ParamaterMode.Position:
-                    output = memory[(int)value];
+                case ParameterMode.Position:
+                    output = 0;
+
+                    if (value <= _memory.Count)
+                    {
+                        output = _memory[(int)value];
+                    }
                     break;
-                case ParamaterMode.Relative:
-                    output = memory[relativePointer + (int)value];
+                case ParameterMode.Relative:
+                    output = 0;
+
+                    if (_relativePointer + (int)value <= _memory.Count)
+                    {
+                        output = _memory[_relativePointer + (int)value];
+                    }
                     break;
                 default:
                     output = 0;
@@ -217,40 +298,93 @@ namespace adventofcode2019.Classes
 
         private void Exit()
         {
-            run = false;
+            _run = false;
         }
 
-        private void Muiltiply()
+        private void Multiply()
         {
-            Put(Get(1) * Get(2), (int)Get(3));
+            Put(Get(1) * Get(2));
+            AdvancePointer(3);
         }
 
         private void Addition()
         {
-            Put(Get(1) * Get(2), (int)Get(3));
+            Put(Get(1) + Get(2));
+            AdvancePointer(3);
         }
 
         private void Input()
         {
-            string input = Console.ReadLine();
+            long longValue;
 
-            Put(long.Parse(input), (int)Get(1));
+            switch (InputModeSetting)
+            {
+                case InputMode.Set:
+
+                    longValue = InputNumbers[_inputPointer];
+                    _inputPointer++;
+
+                    if (_inputPointer >= InputNumbers.Count)
+                    {
+                        _inputPointer = 0;
+                    }
+
+                    break;
+                case InputMode.Console:
+                    Console.WriteLine("Give an input please");
+                    string input = Console.ReadLine();
+
+                    longValue = long.Parse(input);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+           
+
+            Put(longValue);
+            AdvancePointer(1);
         }
 
         private void Output()
         {
-            Console.WriteLine(Get(1));
+
+            switch (_parameters.Modes[0])
+            {
+                case ParameterMode.Relative:
+                    Console.WriteLine($"Outputting: {Get(1, ParameterMode.Relative)}");
+                    break;
+                case ParameterMode.Position:
+                    Console.WriteLine($"Outputting: {Get(1, ParameterMode.Position)}");
+                    break;
+                case ParameterMode.Immediate:
+                    Console.WriteLine($"Outputting: {Get(1, ParameterMode.Immediate)}");
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            
+            AdvancePointer(1);
         }
 
         private void JumpIfTrue()
         {
             if (Get(1) != 0)
             {
-                programPointer = (int)Get(2);
+                _programPointer = (int) Get(2);
+                if (Debug)
+                {
+                    Console.WriteLine($"Jumped to location {(int)Get(2)}");
+                }
             }
             else
             {
-                programPointer += 3;
+                _programPointer += 3;
+                if (Debug)
+                {
+                    Console.WriteLine($"Didnt jump");
+                }
             }
         }
 
@@ -258,28 +392,39 @@ namespace adventofcode2019.Classes
         {
             if (Get(1) == 0)
             {
-                programPointer = (int)Get(2);
+                _programPointer = (int) Get(2);
+                if (Debug)
+                {
+                    Console.WriteLine($"Jumped to location {(int)Get(2)}");
+                }
             }
             else
             {
-                programPointer += 3;
+                _programPointer += 3;
+                if (Debug)
+                {
+                    Console.WriteLine($"Didnt jump");
+                }
             }
         }
 
         private void LessThan()
         {
-
+            
+            Put(Get(1) < Get(2) ? 1 : 0);
+            AdvancePointer(3);
         }
 
         private void Equels()
         {
-
+            Put(Get(1) == Get(2) ? 1 : 0);
+            AdvancePointer(3);
         }
 
         private void ChangeRelativePointer()
         {
-            relativePointer += (int)Get(1);
+            _relativePointer += (int) Get(1);
+            AdvancePointer(1);
         }
-
     }
 }

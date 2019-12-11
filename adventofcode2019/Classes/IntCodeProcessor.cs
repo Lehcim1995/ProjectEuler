@@ -99,7 +99,7 @@ namespace adventofcode2019.Classes
                     string parmC = immediateC ? "Immediate" : relativeC ? "Relative" : "Pointer";
 
                     Console.WriteLine(
-                        $"Opcode {opCode} parmmodes a {parmA} b {parmB} c {parmC}");
+                        $"OpCode {opCode} parmmodes a {parmA} b {parmB} c {parmC}");
                     Console.WriteLine($"Current pointer location {pointer}");
                 }
 

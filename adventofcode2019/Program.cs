@@ -11,7 +11,9 @@ namespace adventofcode2019
 	{
 		static void Main(string[] args)
 		{
-			while (true)
+            Console.BufferHeight = Int16.MaxValue - 1;
+
+            while (true)
 			{
 				//cli.ProcessCommand();
 
@@ -45,7 +47,7 @@ namespace adventofcode2019
 				{
 					Console.WriteLine("Answer not implemented yet");
 				}
-				catch (Exception e)
+				catch (MissingMemberException e)
 				{
 					Console.WriteLine($"Interface not implemented in problem {num} Exception : {e.Message}");
 				}

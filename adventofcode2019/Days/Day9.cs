@@ -64,7 +64,7 @@ namespace adventofcode2019.Days
         public long Answer(params long[] arguments)
         {
             
-            Console.WriteLine(processor.RunCode(program.ToList(), new int[] {}));
+            Console.WriteLine(processor.RunCode(code.ToList(), new int[] {}));
 
             return 0;
         }

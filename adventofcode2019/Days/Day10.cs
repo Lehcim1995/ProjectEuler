@@ -11,12 +11,16 @@ namespace adventofcode2019.Days
     {
         // Array of points
 
-//        private int width = 33;
-        private int width = 5;
+        private int width = 33;
+        //private int width = 5;
 
-//        private string input = "..#..###....#####....###........#.##.##...#.#.......#......##....##..#..##.#..###...##....#......##..####...#..##...####.#.......#.#...#.#.....##...#.####.#.###.#..##..#..##.#.#.####.#.###.#.##.....#.##...##.....##.#......#.....##..#..##.##.#..#....#...#...#...##..#..#.....###.#..##.###.##........##...#..#####.#.#......####.......##.#.#.#.###..#...#.#..##.#.........#....#....##.####....#.......#..##.#.........#..#......###..##.##....#.#..#.#....#.###...#.....##...##..#.#.#...###..#.#.#..###.#..##..##...##...#.#.#...#..#.#..#..#..##.##...###.##.#......#......#.....###.....#....#..#....#...#...###..#......#.##.#...#.####.....#.##...##.#...#........#.#.....#.##....#..#.......##.##.....#..#.#....###.#.#.#.#.#............#....####.##....#..###.##.#.#..#.......##....#.#.#...#...#..#........#.#..####.##.#.........###..##.......#....#.##.......#.#.###......#..#.#.........#...###......#..#.##.#.#.#.#........#.#.##..#..........#.##.#...........#..#.#....####....##..#..##.#.##.##..##....#.#..###.#..#...#....#.###.#..#.............#...#...#.......#.#...........###.#.....#..##..#.##...";
+        //private string input = "..#..###....#####....###........#.##.##...#.#.......#......##....##..#..##.#..###...##....#......##..####...#..##...####.#.......#.#...#.#.....##...#.####.#.###.#..##..#..##.#.#.####.#.###.#.##.....#.##...##.....##.#......#.....##..#..##.##.#..#....#...#...#...##..#..#.....###.#..##.###.##........##...#..#####.#.#......####.......##.#.#.#.###..#...#.#..##.#.........#....#....##.####....#.......#..##.#.........#..#......###..##.##....#.#..#.#....#.###...#.....##...##..#.#.#...###..#.#.#..###.#..##..##...##...#.#.#...#..#.#..#..#..##.##...###.##.#......#......#.....###.....#....#..#....#...#...###..#......#.##.#...#.####.....#.##...##.#...#........#.#.....#.##....#..#.......##.##.....#..#.#....###.#.#.#.#.#............#....####.##....#..###.##.#.#..#.......##....#.#.#...#...#..#........#.#..####.##.#.........###..##.......#....#.##.......#.#.###......#..#.#.........#...###......#..#.##.#.#.#.#........#.#.##..#..........#.##.#...........#..#.#....####....##..#..##.#.##.##..##....#.#..###.#..#...#....#.###.#..#.............#...#...#.......#.#...........###.#.....#..##..#.##...";
 
-        private string input = ".#..#.....#####....#...##";
+        //private string input = ".#..#.....#####....#...##";
+
+        private string input = ".#..##.###...#########.############..##..#.######.########.#.###.#######.####.#.#####.##.#.##.###.##..#####..#.##############################.####....###.#.#.####.######################.##.###..####....######..##.###########.##.####...##..#.#####..#.######.#####...#.##########...#.##########.#######.####.#.###.###.#.##....##.##.###..#####.#.#.###########.####.#.#.#####.####.######.##.####.##.#..##";
+
+        //private string input = ".#..#..#######.###.#....###.#...###.##.###.##.#.#.....###..#..#.#..#.##..#.#.###.##...##.#.....#.#..";
 
         public struct Point
         {
@@ -36,6 +40,7 @@ namespace adventofcode2019.Days
         }
 
         private Dictionary<Point, bool> astroids;
+        private Dictionary<Point, bool> astroids2;
         private Dictionary<Point, int> astroidDetect;
 
         private void FillAstroids()
@@ -64,89 +69,195 @@ namespace adventofcode2019.Days
             {
                 if (astroid.Value)
                 {
+                    astroids2 = new Dictionary<Point, bool>(astroids);
                     int range = 1;
 
                     while (range <= width + 1)
                     {
+
                         CheckAround(astroid.Key, range);
                         range++;
+                        //Console.WriteLine();
+                        //DebugMap(astroids2);
                     }
+                    Console.WriteLine();
+                    DebugMap(astroids2);
+
                 }
             }
         }
 
         private void CheckAround(Point p, int range)
         {
-            Console.WriteLine($"Finding astroids for {p.x}:{p.y} with range {range}");
+            //Console.WriteLine($"Finding astroids for {p.x}:{p.y} with range {range}");
 
-            for (int x = -range; x < range; x++)
+            for (int x = -range; x <= range; x++)
             {
-                for (int y = -range; y < range; y++)
+                for (int y = -range; y <= range; y++)
                 {
+                    var p2 = new Point(p.x + x, p.y + y);
+
                     if (x == 0 && y == 0)
                     {
                         continue; // Dont check center
                     }
 
-                    if ((x == -range || x == range) || (y == -range || y == range))
+                    if (p2.y < 0 || p2.x < 0)
                     {
-                        //Console.WriteLine($" {x} {y} ");
+                        continue; // dont check negative values
+                    }
 
-                        if (astroids.ContainsKey(new Point(p.x + x, p.y + y)))
+                    // only check if the value is on the border
+
+                    if ((x != -range && x != range) && (y != -range && y != range))
+                    {
+                        continue;
+                    }
+
+                    if (astroids2.ContainsKey(p2))
+                    {
+                        if (astroids2[p2])
                         {
-                            if (astroids[new Point(p.x + x, p.y + y)])
                             {
-                                bool found = true;
+                                float deltaX = (p2.x) - p.x;
+                                float deltaY = (p2.y) - p.y;
 
 
-                                // Add 1
-                                // calculate if there is a possible obstruction
-
-                                for (int i = range ; i >= 2; i--) // y = a + bx
-                                // calc y based on x and check if there is an astroid.
+                                
+                                if (deltaX > 1 || deltaX < -1)
                                 {
-                                    //Console.WriteLine($"Walking back");
+                                    deltaY /= deltaX;
 
-                                    // 
-                                    float maybeX = (float) (p.x + x) / i;
-                                    float maybeY = (float) (p.y + y) / i;
+                                    if (deltaX < 0)
+                                        deltaX /= -deltaX;
+                                    else
+                                        deltaX /= deltaX;
 
-                                    bool isX = Math.Abs(maybeX - Math.Floor(maybeX)) < 0.001;
-                                    bool isY = Math.Abs(maybeY - Math.Floor(maybeY)) < 0.001;
+                                    //deltaX /= deltaX;
+                                    
+                                   
+                                }
+                                Console.WriteLine($"deltaX {deltaX} deltay {deltaY} ");
 
-                                    if (isY || isX)
+                                int maxwidth = (int)Math.Sqrt(width * width);
+
+                                for (int i = 2; i < maxwidth; i++)
+                                {
+                                    float xnew = p.x + (deltaX * i);
+                                    float ynew = p.y + (deltaY * i);
+
+                                    if (xnew == Math.Floor(xnew) && ynew == Math.Floor(ynew))
                                     {
-                                        if (astroids[new Point((p.x + x) / i, (p.y + y) / i)])
-                                        {
-                                            //Console.WriteLine($"Found backtrack X: {(p.x + x)/i} Y: {(p.y + y)/i}");
-                                            // Remove 1
-                                            found = false;
-                                            break;
-                                        }
+                                        astroids2[new Point((int)xnew, (int)ynew)] = false;
                                     }
                                 }
+                            }
 
-                                if (found)
+                            {
+                                float deltaX = (p2.x) - p.x;
+                                float deltaY = (p2.y) - p.y;
+
+                                
+                                if (deltaY > 1 || deltaY < -1)
                                 {
-                                    Console.WriteLine($"Found astroid at X: {p.x + x} Y: {p.y + y}");
-                                    astroidDetect[p] += 1;
+                                    deltaX /= deltaY;
+                                    //deltaY /= deltaY;
+
+                                    if (deltaY < 0)
+                                        deltaY /= -deltaY;
+                                    else
+                                        deltaY /= deltaY;
+                                   
+                                }
+
+                                int maxwidth = (int)Math.Sqrt(width * width);
+
+                                for (int i = 2; i < maxwidth; i++)
+                                {
+                                    float xnew = p.x + (deltaX * i);
+                                    float ynew = p.y + (deltaY * i);
+
+                                    if (xnew == Math.Floor(xnew) && ynew == Math.Floor(ynew))
+                                    {
+                                        astroids2[new Point((int)xnew, (int)ynew)] = false;
+                                    }
                                 }
                             }
+
+                            astroidDetect[p] += 1;
                         }
                     }
                 }
             }
         }
 
+        private float[] FormualaY(int a, int b, int xStart, int xEnd)
+        {
+            List<float> numbers = new List<float>();
+
+            for(int x = xStart; x < xEnd; x++)
+            {
+                float y = a + (b * x);
+                numbers.Add(y);
+            }
+
+            return numbers.ToArray();
+        }
+
+        private float[] FormualaX(int a, int b, int yStart, int yEnd)
+        {
+            List<float> numbers = new List<float>();
+
+            for (int y = yStart; y < yEnd; y++)
+            {
+                //int y = a + (b * x);
+                float x = (float)(y  - a) / b ;
+                numbers.Add(x);
+            }
+
+            return numbers.ToArray();
+        }
+
+        private void DebugMap(Dictionary<Point, bool> map)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < width; y++)
+                {
+                   // Console.Write(map[new Point(y, x)] ? "#" : ".");
+                }
+                //Console.Write("\n");
+            }
+        }
 
         // path is block if 
 
         public long Answer(params long[] arguments)
         {
+            width = (int)Math.Sqrt(input.Length);
+
+            Console.WriteLine($"Width {width}");
+
             FillAstroids();
+            DebugMap(astroids);
             FindAstroids();
 
-            return 0;
+            //var xs = FormualaY(3, 2, 0, 5);
+            //var ys = FormualaX(3, 2, 0, 10);
+
+            var large = 0;
+
+            foreach(var astroid in astroidDetect)
+            {
+                if (astroid.Value > large)
+                    large = astroid.Value;
+            }
+
+            var stroid = astroidDetect.First(t => t.Value == large);
+
+            Console.WriteLine($"Largest {large} at {stroid.Key}");
+
+            return large;
         }
     }
 }

@@ -118,11 +118,10 @@ namespace adventofcode2019.Days
                     {
                         if (astroids2[p2])
                         {
+
                             {
                                 float deltaX = (p2.x) - p.x;
                                 float deltaY = (p2.y) - p.y;
-
-
                                 
                                 if (deltaX > 1 || deltaX < -1)
                                 {
@@ -132,12 +131,8 @@ namespace adventofcode2019.Days
                                         deltaX /= -deltaX;
                                     else
                                         deltaX /= deltaX;
-
-                                    //deltaX /= deltaX;
-                                    
                                    
                                 }
-                                Console.WriteLine($"deltaX {deltaX} deltay {deltaY} ");
 
                                 int maxwidth = (int)Math.Sqrt(width * width);
 
@@ -156,7 +151,6 @@ namespace adventofcode2019.Days
                             {
                                 float deltaX = (p2.x) - p.x;
                                 float deltaY = (p2.y) - p.y;
-
                                 
                                 if (deltaY > 1 || deltaY < -1)
                                 {

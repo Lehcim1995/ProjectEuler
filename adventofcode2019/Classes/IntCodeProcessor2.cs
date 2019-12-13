@@ -61,7 +61,7 @@ namespace adventofcode2019.Classes
 
             public static Instruction GetInstruction(int opcode)
             {
-                return Values.FirstOrDefault(t => t.OpCode == opcode).IfDefaultGiveMe(ERROR);
+                return Values.First(t => t.OpCode == opcode).IfDefaultGiveMe(ERROR);
             }
 
             public string Name { get; set; }

@@ -108,7 +108,6 @@ namespace adventofcode2019.Days
                     }
 
                     // only check if the value is on the border
-
                     if ((x != -range && x != range) && (y != -range && y != range))
                     {
                         continue;
@@ -120,9 +119,35 @@ namespace adventofcode2019.Days
                         {
 
                             {
-                                float deltaX = (p2.x) - p.x;
-                                float deltaY = (p2.y) - p.y;
-                                
+                                float deltaX = p2.x - p.x;
+                                float deltaY = p2.y - p.y;
+
+                                Breuken breukX = new Breuken(p2.x - p.x, p2.y - p.y);
+                                Breuken breukY = new Breuken(p2.x - p.x, p2.y - p.y);
+
+                                //Console.WriteLine(breuk);
+
+//                                int maxWidth = (int)Math.Sqrt(width * width);
+//
+//                                for (int i = 2; i < maxWidth; i++)
+//                                {
+//                                    float xnew = p.x + (deltaX * i);
+//                                    float ynew = p.y + (deltaY * i);
+//
+//                                    if (xnew == Math.Floor(xnew) && ynew == Math.Floor(ynew))
+//                                    {
+//                                        astroids2[new Point((int)xnew, (int)ynew)] = false;
+//                                    }
+//                                }
+                            }
+
+                            {
+                                float deltaX = p2.x - p.x;
+                                float deltaY = p2.y - p.y;
+
+                                Breuken breukX = new Breuken(p2.x - p.x, p2.y - p.y);
+                                Breuken breukY = new Breuken(p2.y - p.y, p2.x - p.x);
+
                                 if (deltaX > 1 || deltaX < -1)
                                 {
                                     deltaY /= deltaX;
@@ -131,12 +156,17 @@ namespace adventofcode2019.Days
                                         deltaX /= -deltaX;
                                     else
                                         deltaX /= deltaX;
-                                   
                                 }
 
-                                int maxwidth = (int)Math.Sqrt(width * width);
+                                Console.WriteLine(deltaX);
+                                Console.WriteLine(breukX.Value());
 
-                                for (int i = 2; i < maxwidth; i++)
+                                Console.WriteLine(deltaY);
+                                Console.WriteLine(breukY.Value());
+
+                                int maxWidth = (int)Math.Sqrt(width * width);
+
+                                for (int i = 2; i < maxWidth; i++)
                                 {
                                     float xnew = p.x + (deltaX * i);
                                     float ynew = p.y + (deltaY * i);
@@ -149,8 +179,8 @@ namespace adventofcode2019.Days
                             }
 
                             {
-                                float deltaX = (p2.x) - p.x;
-                                float deltaY = (p2.y) - p.y;
+                                float deltaX = p2.x - p.x;
+                                float deltaY = p2.y - p.y;
                                 
                                 if (deltaY > 1 || deltaY < -1)
                                 {
@@ -182,6 +212,34 @@ namespace adventofcode2019.Days
                         }
                     }
                 }
+            }
+        }
+
+        class Breuken
+        {
+            private int _teller; // boven de streep
+            private int _noemer; // onder de streep
+
+            public Breuken(int teller, int noemer)
+            {
+                this._teller = teller;
+                this._noemer = noemer;
+            }
+
+            public static Breuken operator *(Breuken a, int b)
+            {
+                Breuken bnew = new Breuken(a._teller * b, a._noemer);
+                return bnew;
+            }
+
+            public float Value()
+            {
+                return (float)_teller /_noemer;
+            }
+
+            public override string ToString()
+            {
+                return _teller + "\\" + _noemer;
             }
         }
 
@@ -238,6 +296,11 @@ namespace adventofcode2019.Days
 
             //var xs = FormualaY(3, 2, 0, 5);
             //var ys = FormualaX(3, 2, 0, 10);
+
+//            Breuken b1 = new Breuken(1, 3);
+//            Breuken b2 = new Breuken(2, 3);
+//            
+//            Console.WriteLine($"3 * {b1.Value()} = {(b1 * 3).Value()}");
 
             var large = 0;
 

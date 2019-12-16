@@ -15,10 +15,13 @@ namespace adventofcode2019.Days
 
         private IntCodeProcessor amplifier = new IntCodeProcessor(inputMode: IntCodeProcessor.InputMode.Set);
 
+        private IntCodeProcessor2 amplifier2;
+
         public long Answer(params long[] arguments)
         {
             int[] sequence = {0, 1, 2, 3, 4};
             int maxVal = 0;
+            int maxVal2 = 0;
 
             // for permutations of sequence
             // do this
@@ -35,6 +38,18 @@ namespace adventofcode2019.Days
 
                 if (ampE > maxVal)
                     maxVal = ampE;
+                /*
+                amplifier2 = new IntCodeProcessor2(program) { InputModeSetting = IntCodeProcessor2.InputMode.Set, InputNumbers = new List<long> { perms[0], 0 } };
+
+                int ampA2 = amplifier2.Run();
+                int ampB2 = amplifier2.Run(program.ToList(), new int[] { perms[1], ampA });
+                int ampC2 = amplifier2.Run(program.ToList(), new int[] { perms[2], ampB });
+                int ampD2 = amplifier2.Run(program.ToList(), new int[] { perms[3], ampC });
+                int ampE2 = amplifier2.Run(program.ToList(), new int[] { perms[4], ampD });
+
+                if (ampE2 > maxVal2)
+                    maxVal2 = ampE2;
+                    */
             }
 
             return maxVal;

@@ -22,6 +22,12 @@ namespace adventofcode2019.Classes
             Console
         }
 
+        public enum OutputMode
+        {
+            Return,
+            Console
+        }
+
         internal class Instruction
         {
             public static readonly Instruction EXIT = new Instruction("Exit", 0, 99, null);
@@ -106,24 +112,50 @@ namespace adventofcode2019.Classes
         private int _relativePointer;
         private int _inputPointer;
 
-        private bool _run;
+        private long _returnValue;
+        private bool _return;
+        private bool _run = true;
         public bool Debug { get; set; }
         public InputMode InputModeSetting { get; set; }
 
         public IntCodeProcessor2(long[] program)
         {
             this._program = program;
+
+
+            _memory.AddRange(_program);
+            _programPointer = 0;
+            _relativePointer = 0;
         }
 
-        public void Run()
+        /// <summary>
+        /// Clears the memory and resets the program pointer and relative pointer
+        /// </summary>
+        public void Reset()
         {
+            _memory.Clear();
             _memory.AddRange(_program);
-            _run = true;
-
             _programPointer = 0;
+            _relativePointer = 0;
+            _inputPointer = 0;
+            _returnValue = 0;
+            _return = false;
+            _run = true;
+        }
 
+        /// <summary>
+        /// This runs the specific intcode profiede.
+        /// If the intcode contains an Output instruction it will return this and keeps state. 
+        /// If this method is rerun it will continue 
+        /// </summary>
+        /// <returns> output </returns>
+        public long RunWithOutput()
+        {
+            // 
+            _run = true;
+            _return = false;
 
-            while (_run)
+            while (!_return && _run)
             {
                 // 
                 int opCode = ParseOpcode(_memory[_programPointer]);
@@ -194,7 +226,28 @@ namespace adventofcode2019.Classes
                     Console.WriteLine("\n");
                 }
             }
+
+
+            return _returnValue;
         }
+
+        /// <summary>
+        /// This is an encapulation of the RunWithOutput fucntion
+        /// Runs the intcode and outputs the output only in the console
+        /// It wont stop till it reaches the Exit intcode
+        /// </summary>
+        public void Run()
+        {
+            // Reset all befor running so not state is stored in the Proccessor.
+            Reset();
+            // While not done
+            while (_run)
+            {
+                RunWithOutput();
+            }
+        }
+
+        // Internal functions
 
         private void ParseParameters(long code, Instruction inst)
         {
@@ -222,7 +275,7 @@ namespace adventofcode2019.Classes
             }
         }
 
-        public int ParseOpcode(long code)
+        private int ParseOpcode(long code)
         {
             return (int) code % 100;
         }
@@ -296,6 +349,8 @@ namespace adventofcode2019.Classes
             return output;
         }
 
+        // All IntCode stuff
+
         private void Exit()
         {
             _run = false;
@@ -352,12 +407,18 @@ namespace adventofcode2019.Classes
             switch (_parameters.Modes[0])
             {
                 case ParameterMode.Relative:
+                    _returnValue = Get(1, ParameterMode.Relative);
+                    _return = true;
                     Console.WriteLine($"Outputting: {Get(1, ParameterMode.Relative)}");
                     break;
                 case ParameterMode.Position:
+                    _returnValue = Get(1, ParameterMode.Position);
+                    _return = true;
                     Console.WriteLine($"Outputting: {Get(1, ParameterMode.Position)}");
                     break;
                 case ParameterMode.Immediate:
+                    _returnValue = Get(1, ParameterMode.Immediate);
+                    _return = true;
                     Console.WriteLine($"Outputting: {Get(1, ParameterMode.Immediate)}");
                     break;
                 default:

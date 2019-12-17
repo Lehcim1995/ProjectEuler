@@ -77,8 +77,8 @@ namespace adventofcode2019.Days
 
                         CheckAround(astroid.Key, range);
                         range++;
-                        //Console.WriteLine();
-                        //DebugMap(astroids2);
+//                        Console.WriteLine();
+//                        DebugMap(astroids2);
                     }
                     Console.WriteLine();
                     DebugMap(astroids2);
@@ -117,94 +117,53 @@ namespace adventofcode2019.Days
                     {
                         if (astroids2[p2])
                         {
-
                             {
                                 float deltaX = p2.x - p.x;
                                 float deltaY = p2.y - p.y;
-
-                                Breuken breukX = new Breuken(p2.x - p.x, p2.y - p.y);
-                                Breuken breukY = new Breuken(p2.x - p.x, p2.y - p.y);
-
-                                //Console.WriteLine(breuk);
-
-//                                int maxWidth = (int)Math.Sqrt(width * width);
-//
-//                                for (int i = 2; i < maxWidth; i++)
-//                                {
-//                                    float xnew = p.x + (deltaX * i);
-//                                    float ynew = p.y + (deltaY * i);
-//
-//                                    if (xnew == Math.Floor(xnew) && ynew == Math.Floor(ynew))
-//                                    {
-//                                        astroids2[new Point((int)xnew, (int)ynew)] = false;
-//                                    }
-//                                }
-                            }
-
-                            {
-                                float deltaX = p2.x - p.x;
-                                float deltaY = p2.y - p.y;
-
-                                Breuken breukX = new Breuken(p2.x - p.x, p2.y - p.y);
-                                Breuken breukY = new Breuken(p2.y - p.y, p2.x - p.x);
-
-                                if (deltaX > 1 || deltaX < -1)
-                                {
-                                    deltaY /= deltaX;
-
-                                    if (deltaX < 0)
-                                        deltaX /= -deltaX;
-                                    else
-                                        deltaX /= deltaX;
-                                }
-
-                                Console.WriteLine(deltaX);
-                                Console.WriteLine(breukX.Value());
-
-                                Console.WriteLine(deltaY);
-                                Console.WriteLine(breukY.Value());
-
                                 int maxWidth = (int)Math.Sqrt(width * width);
 
-                                for (int i = 2; i < maxWidth; i++)
+                                if (Math.Abs(deltaY) > 0.00001 && Math.Abs(deltaX) > 0.00001)
                                 {
-                                    float xnew = p.x + (deltaX * i);
-                                    float ynew = p.y + (deltaY * i);
 
-                                    if (xnew == Math.Floor(xnew) && ynew == Math.Floor(ynew))
+                                    Breuken breukX = new Breuken((int)deltaX, (int)deltaY);
+
+                                    for (int i = 2; i < maxWidth; i++)
                                     {
-                                        astroids2[new Point((int)xnew, (int)ynew)] = false;
+                                        float xnew = p.x + (breukX * i).Value();
+                                        float ynew = p.y + (1 * i);
+
+                                        if (xnew == Math.Floor(xnew) && ynew == Math.Floor(ynew))
+                                        {
+                                            astroids2[new Point((int)xnew, (int)ynew)] = false;
+                                        }
+                                    }
+
+                                    Breuken breukY = new Breuken(p2.y - p.y, p2.x - p.x);
+
+                                    for (int i = 2; i < maxWidth; i++)
+                                    {
+                                        float xnew = p.x + (1 * i);
+                                        float ynew = p.y + (breukY * i).Value();
+
+                                        if (xnew == Math.Floor(xnew) && ynew == Math.Floor(ynew))
+                                        {
+                                            astroids2[new Point((int)xnew, (int)ynew)] = false;
+                                        }
                                     }
                                 }
-                            }
-
-                            {
-                                float deltaX = p2.x - p.x;
-                                float deltaY = p2.y - p.y;
-                                
-                                if (deltaY > 1 || deltaY < -1)
+                                else
                                 {
-                                    deltaX /= deltaY;
-                                    //deltaY /= deltaY;
-
-                                    if (deltaY < 0)
-                                        deltaY /= -deltaY;
-                                    else
-                                        deltaY /= deltaY;
-                                   
-                                }
-
-                                int maxwidth = (int)Math.Sqrt(width * width);
-
-                                for (int i = 2; i < maxwidth; i++)
-                                {
-                                    float xnew = p.x + (deltaX * i);
-                                    float ynew = p.y + (deltaY * i);
-
-                                    if (xnew == Math.Floor(xnew) && ynew == Math.Floor(ynew))
+                                    for (int i = 2; i < maxWidth; i++)
                                     {
-                                        astroids2[new Point((int)xnew, (int)ynew)] = false;
+                                        float xnew = p.x + (deltaX * i);
+                                        float ynew = p.y + (deltaY * i);
+
+                                        if (xnew == Math.Floor(xnew) && ynew == Math.Floor(ynew))
+                                        {
+                                            astroids2[new Point((int) xnew, (int) ynew)] = false;
+                                        }
                                     }
+
                                 }
                             }
 
@@ -276,9 +235,9 @@ namespace adventofcode2019.Days
             {
                 for (int y = 0; y < width; y++)
                 {
-                   // Console.Write(map[new Point(y, x)] ? "#" : ".");
+                    Console.Write(map[new Point(y, x)] ? "#" : ".");
                 }
-                //Console.Write("\n");
+                Console.Write("\n");
             }
         }
 

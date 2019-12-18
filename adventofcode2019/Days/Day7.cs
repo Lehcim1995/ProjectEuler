@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using adventofcode2019.Classes;
 using adventofcode2019.Interfaces;
-using ProjectEuler.Classes;
+using adventofcode2019.Classes;
 
 namespace adventofcode2019.Days
 {

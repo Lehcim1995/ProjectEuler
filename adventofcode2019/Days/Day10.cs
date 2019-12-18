@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using adventofcode2019.Interfaces;
+using adventofcode2019.Classes;
 
 namespace adventofcode2019.Days
 {
@@ -42,6 +43,7 @@ namespace adventofcode2019.Days
         private Dictionary<Point, bool> astroids;
         private Dictionary<Point, bool> astroids2;
         private Dictionary<Point, int> astroidDetect;
+        private MyMaths mm = new MyMaths();
 
         private void FillAstroids()
         {
@@ -75,7 +77,7 @@ namespace adventofcode2019.Days
                     while (range <= width + 1)
                     {
 
-                        CheckAround(astroid.Key, range);
+                        CheckAround2(astroid.Key, range);
                         range++;
 //                        Console.WriteLine();
 //                        DebugMap(astroids2);
@@ -83,6 +85,48 @@ namespace adventofcode2019.Days
                     Console.WriteLine();
                     DebugMap(astroids2);
 
+                }
+            }
+        }
+
+        private void CheckAround2(Point p, int range)
+        {
+            for (int x = -range; x <= range; x++)
+            {
+                for (int y = -range; y <= range; y++)
+                {
+                    var p2 = new Point(p.x + x, p.y + y);
+
+                    if (x == 0 && y == 0)
+                    {
+                        continue; // Dont check center
+                    }
+
+                    if (p2.y < 0 || p2.x < 0)
+                    {
+                        continue; // dont check negative values
+                    }
+
+                    // only check if the value is on the border
+
+                    if ((x != -range && x != range) && (y != -range && y != range))
+                    {
+                        continue;
+                    }
+
+                    if (astroids2.ContainsKey(p2))
+                    {
+                        if (astroids2[p2])
+                        {
+                            int deltaX = p2.x - p.x;
+                            int deltaY = p2.y - p.y;
+
+                            var devX = mm.NumberOfDevisors(deltaX);
+                            var devY = mm.NumberOfDevisors(deltaY);
+
+                            var a = 1;
+                        }
+                    }
                 }
             }
         }

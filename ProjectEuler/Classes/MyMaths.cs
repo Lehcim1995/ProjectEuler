@@ -35,7 +35,7 @@ namespace ProjectEuler.Classes
                     devisors++;
                 }
             }
-
+            
             return devisors;
         }
 

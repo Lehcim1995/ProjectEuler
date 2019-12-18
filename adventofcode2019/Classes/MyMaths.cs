@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace ProjectEuler.Classes
+namespace adventofcode2019.Classes
 {
     public class MyMaths
     {
@@ -11,6 +11,23 @@ namespace ProjectEuler.Classes
         public MyMaths()
         {
             _primeList = GeneratePrimesSieveOfSundaram(2000000).ToArray();
+        }
+
+        public List<int> Devisors(int number)
+        {
+
+            double max = Math.Sqrt(number);
+            List<int> devisorsList = new List<int>();
+
+            for (int i = 1; i <= max; i++)
+            {
+                if (number % i == 0)
+                {
+                    devisorsList.Add(i);
+                }
+            }
+
+            return devisorsList;
         }
 
         public int NumberOfDevisors(int number)

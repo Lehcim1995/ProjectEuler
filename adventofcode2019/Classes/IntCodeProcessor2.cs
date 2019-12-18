@@ -40,7 +40,7 @@ namespace adventofcode2019.Classes
             public static readonly Instruction LESS_THAN = new Instruction("Less than", 3, 7, null);
             public static readonly Instruction EQUELS = new Instruction("Equels", 3, 8, null);
             public static readonly Instruction CHANGE_RELATIVE = new Instruction("Change relative", 1, 9, null);
-            public static readonly Instruction ERROR = new Instruction("ERROR", -1, -1, null);
+            public static readonly Instruction ERROR = new Instruction("ERROR", 0, -1, null);
 
             public static IEnumerable<Instruction> Values
             {
@@ -61,7 +61,9 @@ namespace adventofcode2019.Classes
 
             public static Instruction GetInstruction(int opcode)
             {
-                return Values.First(t => t.OpCode == opcode).IfDefaultGiveMe(ERROR);
+                var s = Values.FirstOrDefault(t => t.OpCode == opcode);
+
+                return s ?? ERROR;
             }
 
             public string Name { get; set; }
@@ -166,21 +168,21 @@ namespace adventofcode2019.Classes
 
                 if (Debug)
                 {
-                    DebugLog($"Current pointer location {_programPointer}");
-                    DebugLog($"Current relative pointer location {_relativePointer}");
-                    DebugLog($"Original Input {_memory[_programPointer]}");
+                    Console.WriteLine($"Current pointer location {_programPointer}");
+                    Console.WriteLine($"Current relative pointer location {_relativePointer}");
+                    Console.Write($"Original Input {_memory[_programPointer]}");
                     for (int i = 0; i < inst.Parameters; i++)
                     {
-                        DebugLog($",{Get(i + 1, ParameterMode.Immediate)}");
+                        Console.Write($",{Get(i + 1, ParameterMode.Immediate)}");
                     }
 
-                    DebugLog("\n");
+                    Console.Write("\n");
 
-                    DebugLog($"Name: {inst.Name}");
+                    Console.WriteLine($"Name: {inst.Name}");
 
                     for (int i = 0; i < inst.Parameters; i++)
                     {
-                        DebugLog($"Parameter value: {Get(i + 1, ParameterMode.Immediate)} | Mode: {_parameters.Modes[i]} | Actual Value: {Get(i + 1)}");
+                        Console.WriteLine($"Parameter value: {Get(i + 1, ParameterMode.Immediate)} | Mode: {_parameters.Modes[i]} | Actual Value: {Get(i + 1)}");
                     }
                 }
 
@@ -217,6 +219,8 @@ namespace adventofcode2019.Classes
                         Exit();
                         break;
                     default:
+                        Console.WriteLine($"Faulty opcode");
+
                         break;
                 }
 
@@ -336,7 +340,7 @@ namespace adventofcode2019.Classes
                 case ParameterMode.Position:
                     output = 0;
 
-                    if (value <= _memory.Count)
+                    if (value < _memory.Count)
                     {
                         output = _memory[(int)value];
                     }
@@ -344,7 +348,7 @@ namespace adventofcode2019.Classes
                 case ParameterMode.Relative:
                     output = 0;
 
-                    if (_relativePointer + (int)value <= _memory.Count)
+                    if (_relativePointer + (int)value < _memory.Count)
                     {
                         output = _memory[_relativePointer + (int)value];
                     }
@@ -385,14 +389,15 @@ namespace adventofcode2019.Classes
             {
                 case InputMode.Set:
 
-                    longValue = InputNumbers[_inputPointer];
-                    _inputPointer++;
-
+                    // Check if input pointer rolled over before retrieving the input because the input numbers could have changed
                     if (_inputPointer >= InputNumbers.Count)
                     {
                         _inputPointer = 0;
                     }
 
+                    longValue = InputNumbers[_inputPointer];
+                    _inputPointer++;
+                    
                     break;
                 case InputMode.Console:
                     Console.WriteLine("Give an input please");
@@ -418,17 +423,18 @@ namespace adventofcode2019.Classes
                 case ParameterMode.Relative:
                     _returnValue = Get(1, ParameterMode.Relative);
                     _return = true;
-                    Console.WriteLine($"Outputting: {Get(1, ParameterMode.Relative)}");
+                    
+                    //Console.WriteLine($"Outputting: {Get(1, ParameterMode.Relative)}");
                     break;
                 case ParameterMode.Position:
                     _returnValue = Get(1, ParameterMode.Position);
                     _return = true;
-                    Console.WriteLine($"Outputting: {Get(1, ParameterMode.Position)}");
+                    //Console.WriteLine($"Outputting: {Get(1, ParameterMode.Position)}");
                     break;
                 case ParameterMode.Immediate:
                     _returnValue = Get(1, ParameterMode.Immediate);
                     _return = true;
-                    Console.WriteLine($"Outputting: {Get(1, ParameterMode.Immediate)}");
+                    //Console.WriteLine($"Outputting: {Get(1, ParameterMode.Immediate)}");
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

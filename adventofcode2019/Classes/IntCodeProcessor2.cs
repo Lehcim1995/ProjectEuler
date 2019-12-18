@@ -117,6 +117,7 @@ namespace adventofcode2019.Classes
         private bool _run = true;
         public bool Debug { get; set; }
         public InputMode InputModeSetting { get; set; }
+        public bool IsRunning { get { return _run; } private set { _run = value; } }
 
         public IntCodeProcessor2(long[] program)
         {

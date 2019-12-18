@@ -165,21 +165,21 @@ namespace adventofcode2019.Classes
 
                 if (Debug)
                 {
-                    Console.WriteLine($"Current pointer location {_programPointer}");
-                    Console.WriteLine($"Current relative pointer location {_relativePointer}");
-                    Console.Write($"Original Input {_memory[_programPointer]}");
+                    DebugLog($"Current pointer location {_programPointer}");
+                    DebugLog($"Current relative pointer location {_relativePointer}");
+                    DebugLog($"Original Input {_memory[_programPointer]}");
                     for (int i = 0; i < inst.Parameters; i++)
                     {
-                        Console.Write($",{Get(i + 1, ParameterMode.Immediate)}");
+                        DebugLog($",{Get(i + 1, ParameterMode.Immediate)}");
                     }
 
-                    Console.Write("\n");
+                    DebugLog("\n");
 
-                    Console.WriteLine($"Name: {inst.Name}");
+                    DebugLog($"Name: {inst.Name}");
 
                     for (int i = 0; i < inst.Parameters; i++)
                     {
-                        Console.WriteLine($"Parameter value: {Get(i + 1, ParameterMode.Immediate)} | Mode: {_parameters.Modes[i]} | Actual Value: {Get(i + 1)}");
+                        DebugLog($"Parameter value: {Get(i + 1, ParameterMode.Immediate)} | Mode: {_parameters.Modes[i]} | Actual Value: {Get(i + 1)}");
                     }
                 }
 
@@ -248,6 +248,14 @@ namespace adventofcode2019.Classes
         }
 
         // Internal functions
+
+        private void DebugLog(string log)
+        {
+            if (Debug)
+            {
+                Console.WriteLine(log);
+            }
+        }
 
         private void ParseParameters(long code, Instruction inst)
         {
@@ -471,7 +479,6 @@ namespace adventofcode2019.Classes
 
         private void LessThan()
         {
-            
             Put(Get(1) < Get(2) ? 1 : 0);
             AdvancePointer(3);
         }

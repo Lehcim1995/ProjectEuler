@@ -13,6 +13,19 @@ namespace adventofcode2019.Classes
             _primeList = GeneratePrimesSieveOfSundaram(2000000).ToArray();
         }
 
+        public long GCD(long a, long b)
+        {
+            while (a != 0 && b != 0)
+            {
+                if (a > b)
+                    a %= b;
+                else
+                    b %= a;
+            }
+
+            return a == 0 ? b : a;
+        }
+
         public List<int> Devisors(int number)
         {
 

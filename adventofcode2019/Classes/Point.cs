@@ -21,5 +21,10 @@ namespace adventofcode2019.Classes
         {
             return x + " : " + y;
         }
+
+        public static Point operator +(Point a, Point b)
+        {
+            return new Point(b.x + a.x, b.y + a.y);
+        }
     }
 }

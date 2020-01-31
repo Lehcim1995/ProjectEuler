@@ -89,6 +89,9 @@
     <Folder Include="CLI\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Files\day14_input.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Files\Orbits.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

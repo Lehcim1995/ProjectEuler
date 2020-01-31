@@ -41,11 +41,9 @@ namespace adventofcode2019.Days
                 {
                     y++;
                     x = 0;
-                    // x = 0
                 }
 
                 b.Append(s);
-
             }
 
             // scan the map to find crosses

@@ -2,6 +2,7 @@
 using adventofcode2019.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -146,6 +147,8 @@ namespace adventofcode2019.Days
                         if (x == 0 && y == 0)
                         {
                             b.Append("*");
+                            Debug.WriteLine("Center point is");
+                            Debug.WriteLine(map[new Point(x,y)]);
                         }
                         else if (x == loc.x && y == loc.y)
                         {
@@ -186,7 +189,7 @@ namespace adventofcode2019.Days
             Thread.Sleep(8);
         }
 
-        private Point Move(Direction dir, Point location, out bool hit)
+        private Point Move(Direction dir, Point current, out bool hit)
         {
             
             Point add = DirToPoint(dir);
@@ -194,9 +197,9 @@ namespace adventofcode2019.Days
             var x = icp2.RunWithOutput();
 
 
-            if (!map.ContainsKey(location + add))
+            if (!map.ContainsKey(current + add))
             {
-                map.Add(location + add, 0);
+                map.Add(current + add, 0);
             }
 
             hit = false;
@@ -206,29 +209,29 @@ namespace adventofcode2019.Days
 
                     // Move
 
-                    location.x += add.x;
-                    location.y += add.y;
+                    current.x += add.x;
+                    current.y += add.y;
                     hit = false;
                     // Add now location 
 
                     break;
                 case 0: // wall in the way didnt move
 
-                    map[location + add] = 1;
+                    map[current + add] = 1;
                     hit = true;
 
                     break;
                 case 2: // found leak
 
-                    map[location + add] = 2;
-                    location.x += add.x;
-                    location.y += add.y;
-                    hit = true;
+                    map[current + add] = 2;
+                    current.x += add.x;
+                    current.y += add.y;
+                    hit = false;
                     // Stop?
                     break;
             }
 
-            return location;
+            return current;
         }
 
         private void Look(Point location)
@@ -249,7 +252,7 @@ namespace adventofcode2019.Days
 
         private int shortestPath(Point start, Point end)
         {
-            var mz = new MazeSolver(0, 1).Solve(map, start, end);
+            var mz = new MazeSolver(1, 0).Solve(map, start, end);
 
             return mz.OfType<bool>().Sum(x => x ? 1 : 0);
         }
@@ -266,12 +269,13 @@ namespace adventofcode2019.Days
 
             map.Add(location, 0);
             // We know left west is free
-            Direction dir = Direction.West;
+            Direction dir = Direction.North;
+            Look(location);
 
             while (map[location] != 2)
             {
                 location = Move(dir, location, out var hit);
-                
+
                 Look(location);
 
                 // Can we go right? 

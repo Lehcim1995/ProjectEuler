@@ -31,10 +31,10 @@ namespace adventofcode2019.Classes
             maxY = maze.Max(m => m.Key.y);
             minY = maze.Min(m => m.Key.y);
 
-            int sizeX = maxX - minX;
-            int sizeY = maxY - minY;
+            mazeSizeX = maxX - minX;
+            mazeSizeY = maxY - minY;
 
-            int[,] intMaze = new int[sizeX + 1, sizeY + 1];
+            int[,] intMaze = new int[mazeSizeX + 1, mazeSizeY + 1];
             // intMaze.Initialize();
 
             for (var index0 = 0; index0 < intMaze.GetLength(0); index0++)
@@ -59,32 +59,35 @@ namespace adventofcode2019.Classes
             if (maze[loc.x, loc.y] == _wall || wasHere[loc.x, loc.y]) return false;
 
             wasHere[loc.x, loc.y] = true;
-            if (loc.x != 0) // Checks if not on left edge
-                if (recursiveSolve(loc - new Point(-1, 0), end))
+            if (loc.x > 0)
+            {
+                // Checks if not on left edge
+                if (recursiveSolve(loc + new Point(-1, 0), end))
                 {
                     // Recalls method one to the left
                     correctPath[loc.x, loc.y] = true; // Sets that path value to true;
                     return true;
                 }
+            }
 
-            if (loc.x != mazeSizeX - 1) // Checks if not on right edge
-                if (recursiveSolve(loc - new Point(1, 0), end))
+            if (loc.x < mazeSizeX - 1) // Checks if not on right edge
+                if (recursiveSolve(loc + new Point(1, 0), end))
                 {
                     // Recalls method one to the right
                     correctPath[loc.x, loc.y] = true;
                     return true;
                 }
 
-            if (loc.y != 0) // Checks if not on top edge
-                if (recursiveSolve(loc - new Point(0, -1), end))
+            if (loc.y > 0) // Checks if not on top edge
+                if (recursiveSolve(loc + new Point(0, -1), end))
                 {
                     // Recalls method one up
                     correctPath[loc.x, loc.y] = true;
                     return true;
                 }
 
-            if (loc.y != mazeSizeY - 1) // Checks if not on bottom edge
-                if (recursiveSolve(loc - new Point(0, 1), end))
+            if (loc.y < mazeSizeY - 1) // Checks if not on bottom edge
+                if (recursiveSolve(loc + new Point(0, 1), end))
                 {
                     // Recalls method one down
                     correctPath[loc.x, loc.y] = true;
@@ -104,7 +107,7 @@ namespace adventofcode2019.Classes
             this.correctPath = new bool[sizeX, sizeY];
 
             Point offset = new Point(-minX, -minY);
-            recursiveSolve(start - offset, end - offset);
+            recursiveSolve(start + offset, end + offset);
 
             return correctPath;
         }

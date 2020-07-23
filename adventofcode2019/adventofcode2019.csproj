@@ -49,8 +49,10 @@
     <Compile Include="Classes\ClassExtentions.cs" />
     <Compile Include="Classes\IntCodeProcessor.cs" />
     <Compile Include="Classes\IntCodeProcessor2.cs" />
+    <Compile Include="Classes\MazeSolver.cs" />
     <Compile Include="Classes\MyMaths.cs" />
     <Compile Include="Classes\Point.cs" />
+    <Compile Include="Days\Day18.cs" />
     <Compile Include="Days\Day1.cs" />
     <Compile Include="Days\Day10.cs" />
     <Compile Include="Days\Day11_2.cs" />

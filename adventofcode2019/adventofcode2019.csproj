@@ -52,6 +52,9 @@
     <Compile Include="Classes\MazeSolver.cs" />
     <Compile Include="Classes\MyMaths.cs" />
     <Compile Include="Classes\Point.cs" />
+    <Compile Include="Days\Day15_2.cs" />
+    <Compile Include="Days\Day16_2.cs" />
+    <Compile Include="Days\Day16.cs" />
     <Compile Include="Days\Day18.cs" />
     <Compile Include="Days\Day1.cs" />
     <Compile Include="Days\Day10.cs" />

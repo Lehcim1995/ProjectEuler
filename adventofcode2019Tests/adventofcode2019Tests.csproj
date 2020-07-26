@@ -57,6 +57,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Classes\IntCodeProcessor2Tests.cs" />
+    <Compile Include="Days\Day16Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

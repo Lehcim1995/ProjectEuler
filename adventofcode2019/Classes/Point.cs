@@ -29,7 +29,17 @@ namespace adventofcode2019.Classes
 
         public static Point operator -(Point a, Point b)
         {
-            return new Point(b.x - a.x, b.y - a.y);
+            return new Point(a.x - b.x, a.y - b.y);
+        }
+
+        public static Point operator *(Point a, Point b)
+        {
+            return new Point(a.x * b.x, a.y * b.y);
+        }
+
+        public static Point operator *(Point a, int b)
+        {
+            return new Point(a.x * b, a.y * b);
         }
 
         public bool Equals(Point other)

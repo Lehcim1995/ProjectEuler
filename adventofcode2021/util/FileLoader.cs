@@ -12,8 +12,7 @@ public class FileLoader
         // Read the file and display it line by line.  
         string path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"input\" + fileName);
 
-        using (StreamReader file =
-               new StreamReader(path))
+        using (StreamReader file = new StreamReader(path))
         {
             string? line;
             while ((line = file.ReadLine()) != null)

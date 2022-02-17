@@ -30,19 +30,19 @@ namespace adventofcode2019.Classes
 
         internal class Instruction
         {
-            public static readonly Instruction EXIT = new Instruction("Exit", 0, 99, null);
-            public static readonly Instruction MULTIPLY = new Instruction("Multiply", 3, 2, null);
-            public static readonly Instruction ADDITION = new Instruction("Addition", 3, 1, null);
-            public static readonly Instruction INPUT = new Instruction("Input", 1, 3, null);
-            public static readonly Instruction OUTPUT = new Instruction("Output", 1, 4, null);
-            public static readonly Instruction JUMP_IF_TRUE = new Instruction("Jump if true", 2, 5, null);
-            public static readonly Instruction JUMP_IF_FALSE = new Instruction("Jump if false", 2, 6, null);
-            public static readonly Instruction LESS_THAN = new Instruction("Less than", 3, 7, null);
-            public static readonly Instruction EQUELS = new Instruction("Equels", 3, 8, null);
-            public static readonly Instruction CHANGE_RELATIVE = new Instruction("Change relative", 1, 9, null);
-            public static readonly Instruction ERROR = new Instruction("ERROR", 0, -1, null);
+            static readonly Instruction EXIT = new Instruction("Exit", 0, 99);
+            static readonly Instruction MULTIPLY = new Instruction("Multiply", 3, 2);
+            static readonly Instruction ADDITION = new Instruction("Addition", 3, 1);
+            static readonly Instruction INPUT = new Instruction("Input", 1, 3);
+            static readonly Instruction OUTPUT = new Instruction("Output", 1, 4);
+            static readonly Instruction JUMP_IF_TRUE = new Instruction("Jump if true", 2, 5);
+            static readonly Instruction JUMP_IF_FALSE = new Instruction("Jump if false", 2, 6);
+            static readonly Instruction LESS_THAN = new Instruction("Less than", 3, 7);
+            static readonly Instruction EQUELS = new Instruction("Equels", 3, 8);
+            static readonly Instruction CHANGE_RELATIVE = new Instruction("Change relative", 1, 9);
+            static readonly Instruction ERROR = new Instruction("ERROR", 0, -1);
 
-            public static IEnumerable<Instruction> Values
+            static IEnumerable<Instruction> Values
             {
                 get
                 {
@@ -74,7 +74,7 @@ namespace adventofcode2019.Classes
 
             public Execute ExecuteInstruction;
 
-            Instruction(string name, int parameters, int opCode, Execute executeInstruction)
+            Instruction(string name, int parameters, int opCode, Execute executeInstruction = null)
             {
                 this.Name = name;
                 this.Parameters = parameters;
@@ -185,7 +185,7 @@ namespace adventofcode2019.Classes
                         Console.WriteLine($"Parameter value: {Get(i + 1, ParameterMode.Immediate)} | Mode: {_parameters.Modes[i]} | Actual Value: {Get(i + 1)}");
                     }
                 }
-
+                
                 switch (inst.OpCode)
                 {
                     case 1:
@@ -401,7 +401,7 @@ namespace adventofcode2019.Classes
                     break;
                 case InputMode.Console:
                     Console.WriteLine("Give an input please");
-                    string input = Console.ReadLine();
+                    var input = Console.ReadLine();
 
                     longValue = long.Parse(input);
                     break;

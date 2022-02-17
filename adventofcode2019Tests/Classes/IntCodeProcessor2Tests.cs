@@ -26,22 +26,28 @@ namespace adventofcode2019.Classes.Tests
         public void RunTest()
         {
             icp2 = new IntCodeProcessor2(test1) {Debug = false};
-            icp2.Run();
+            // icp2.Run();
+            Assert.AreEqual(icp2.RunWithOutput(), -1);
 
             icp2 = new IntCodeProcessor2(test2) { Debug = false };
-            icp2.Run();
+            // icp2.Run();
+            Assert.AreEqual(icp2.RunWithOutput(), 1);
 
             icp2 = new IntCodeProcessor2(test3) { Debug = false };
-            icp2.Run();
+            // icp2.Run();
+            Assert.AreEqual(icp2.RunWithOutput(), 109);
 
             icp2 = new IntCodeProcessor2(test4) { Debug = false };
-            icp2.Run();
+            // icp2.Run();
+            Assert.AreEqual(icp2.RunWithOutput(), 204);
 
             icp2 = new IntCodeProcessor2(test5) { Debug = false };
-            icp2.Run();
+            // icp2.Run();
+            Assert.AreEqual(icp2.RunWithOutput(), 204);
 
             icp2 = new IntCodeProcessor2(test6) { Debug = false };
-            icp2.Run();
+            // icp2.Run();
+            Assert.AreEqual(icp2.RunWithOutput(), 204);
 
             icp2 = new IntCodeProcessor2(test7) { Debug = false, InputModeSetting = IntCodeProcessor2.InputMode.Set, InputNumbers = {32}};
             icp2.Run();
@@ -49,7 +55,7 @@ namespace adventofcode2019.Classes.Tests
             icp2 = new IntCodeProcessor2(test8) { Debug = false, InputModeSetting = IntCodeProcessor2.InputMode.Set, InputNumbers = { 32 } };
             icp2.Run();
 
-            Assert.Fail();
+            // Assert.Fail();
         }
     }
 }
